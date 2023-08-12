@@ -9,4 +9,4 @@
 * Site is build with Vite
 * Functions are refactored for being more clear and universal
 
-[Please, enjoy!](https://kamille57.github.io/mesto/ "Traveller's Page")
+[Please, enjoy!](https://kamille57.github.io/mesto-react/ "Traveller's Page")
