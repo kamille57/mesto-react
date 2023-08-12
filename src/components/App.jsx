@@ -5,8 +5,6 @@ import Footer from './Footer';
 import PopupWithForm from './PopupWithForm';
 import ImagePopup from './ImagePopup';
 import '../pages/index.css';
-import '../App.css';
-
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -35,7 +33,7 @@ function App() {
 
     function handleCardClick(card) {
         setSelectedCard(card);
-      }
+    }
 
     return (
         <div className="page">
