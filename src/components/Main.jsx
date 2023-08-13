@@ -17,17 +17,13 @@ function Main({ onEditProfile, onAddPlace, onEditAvatar, onCardClick }) {
                 setUserDescription(data.about);
                 setUserAvatar(data.avatar);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(console.error)
 
         api.getInitialCards()
             .then((data) => {
                 setCards(data);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(console.error)
     }, []);
 
     return (
