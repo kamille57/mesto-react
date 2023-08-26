@@ -1,22 +1,37 @@
-import React, { useState } from 'react';
-import Header from './Header';
-import Main from './Main';
-import Footer from './Footer';
-import PopupWithForm from './PopupWithForm';
-import ImagePopup from './ImagePopup';
-import '../pages/index.css';
+import React, { useState, useEffect } from "react";
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
+import PopupWithForm from "./PopupWithForm";
+import ImagePopup from "./ImagePopup";
+import EditProfilePopup from "./EditProfilePopup";
+import CurrentUserContext from "../contexts/CurrentUserContext";
+import Api from "../utils/Api";
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
     const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
     const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
-    const [selectedCard, setSelectedCard] = useState({ name: '', link: '' }); 
-    
+    const [selectedCard, setSelectedCard] = useState({ name: "", link: "" });
+    const [currentUser, setCurrentUser] = useState({});
+    const [cards, setCards] = useState([]);
+    const api = new Api();
+    useEffect(() => {
+
+
+        Promise.all([api.getUserInfo(), api.getInitialCards()])
+            .then(([userData, cardsData]) => {
+                setCurrentUser(userData);
+                setCards(cardsData);
+            })
+            .catch(console.error);
+    }, []);
+
     function closeAllPopups() {
         setIsEditProfilePopupOpen(false);
         setIsAddPlacePopupOpen(false);
         setIsEditAvatarPopupOpen(false);
-        setSelectedCard({ name: '', link: '' });
+        setSelectedCard({ name: "", link: "" });
     }
 
     function handleEditProfileClick() {
@@ -34,18 +49,46 @@ function App() {
     function handleCardClick(card) {
         setSelectedCard(card);
     }
+    // Функция для обработки лайка карточки
+    function handleCardLike(card) {
+        const isLiked = card.likes.some((i) => i._id === currentUser._id);
+
+        // Отправляем запрос в API и получаем обновлённые данные карточки
+        api.changeLikeCardStatus(card._id, !isLiked).then((newCard) => {
+            setCards((state) =>
+                state.map((c) => (c._id === card._id ? newCard : c))
+            );
+        });
+    }
+
+    // Функция для обработки удаления карточки
+    function handleCardDelete(card) {
+        // Отправляем запрос в API для удаления карточки
+        api.deleteCard(card._id).then(() => {
+            setCards((state) => state.filter((c) => c._id !== card._id));
+        });
+    }
 
     return (
         <div className="page">
             <Header />
-            <Main
-                onEditProfile={handleEditProfileClick}
-                onAddPlace={handleAddPlaceClick}
-                onEditAvatar={handleEditAvatarClick}
-                onCardClick={handleCardClick}
-            />
+            <CurrentUserContext.Provider value={currentUser}>
+                <Main
+                    cards={cards}
+                    onEditProfile={handleEditProfileClick}
+                    onAddPlace={handleAddPlaceClick}
+                    onEditAvatar={handleEditAvatarClick}
+                    onCardClick={handleCardClick}
+                    onCardLike={handleCardLike}
+                    onCardDelete={handleCardDelete}
+                />
+            </CurrentUserContext.Provider>
             <Footer />
 
+            <EditProfilePopup
+                isOpen={isEditProfilePopupOpen}
+                onClose={closeAllPopups}
+            />
             <PopupWithForm
                 title="Редактировать профиль"
                 name="editProfile"
