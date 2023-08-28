@@ -25,13 +25,23 @@ export default class Api {
         });
     }
 
-    updateUserInfo(data) {
+    setUserInfo({ data }) {
         return this._request(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
                 name: data.name,
-                about: data.about
+                about: data.about,
+            })
+        });
+    }
+
+    updateAvatar(avatar) {
+        return this._request(`${this._baseUrl}/users/me/avatar`, {
+            method: 'PATCH',
+            headers: this._headers,
+            body: JSON.stringify({
+                avatar: avatar
             })
         });
     }
@@ -72,9 +82,9 @@ export default class Api {
     }
 
     changeLikeCardStatus(cardId, like) {
-        return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
+        return this._request(`${this._baseUrl}/cards/${cardId}/likes`, {
             method: like ? "PUT" : "DELETE",
             headers: this._headers,
-        }).then(this._checkResponse);
+        });
     }
 }
