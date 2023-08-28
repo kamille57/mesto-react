@@ -2,12 +2,13 @@ import React, { useState, useEffect } from "react";
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
-import PopupWithForm from "./PopupWithForm";
 import ImagePopup from "./ImagePopup";
 import CurrentUserContext from "../contexts/CurrentUserContext";
 import Api from "../utils/Api";
 import EditProfilePopup from "./EditProfilePopup";
 import EditAvatarPopup from "./EditAvatarPopup";
+import AddPlacePopup from "./AddPlacePopup";
+
 
 function App() {
     const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = useState(false);
@@ -94,6 +95,17 @@ function App() {
             });
     };
 
+    const handleAddPlaceSubmit = (card) => {
+        api.addCard(card)
+            .then((createdCard) => {
+                setCards((prevCards) => [createdCard, ...prevCards]);
+                setIsAddPlacePopupOpen(false);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+    };
+
     return (
         <div className="page">
             <Header />
@@ -118,19 +130,11 @@ function App() {
                     onClose={closeAllPopups}
                     onUpdateAvatar={handleUpdateAvatar}
                 />
-                <PopupWithForm
-                    title="Новое место"
-                    name="addPlace"
-                    button="Создать"
-                    isOpen={isAddPlacePopupOpen}
+
+                <AddPlacePopup isOpen={isAddPlacePopupOpen}
                     onClose={closeAllPopups}
-                >
-                    <input type="text" className="popup__input" name="name" placeholder="Название" id="placeName" minLength="2"
-                        maxLength="30" required />
-                    <span id="placeName-error" className="error error_invalid"></span>
-                    <input type="url" className="popup__input" name="link" placeholder="Ссылка на картинку" id="placeLink" required />
-                    <span id="placeLink-error" className="error error_invalid"></span>
-                </PopupWithForm>
+                    onAddPlace={handleAddPlaceSubmit}
+                />
 
                 <ImagePopup
                     card={selectedCard}

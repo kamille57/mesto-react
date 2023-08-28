@@ -14,29 +14,29 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
     }
   }, [currentUser]);
 
-  function handleInputChange(event) {
+  const handleInputChange = (event) => {
     const { name, value } = event.target;
     if (name === "name") {
       setName(value);
     } else if (name === "about") {
       setDescription(value);
     }
-  }
+  };
 
-  function handleSubmit(event) {
+  const handleSubmit = (event) => {
     event.preventDefault();
-    onUpdateUser(name, description);
-    onClose();
-  }
+    onUpdateUser({ name, about: description });
+    onClose(); 
+  };
 
   return (
     <PopupWithForm
-      isOpen={isOpen}
-      onClose={onClose}
-      onSubmit={handleSubmit}
       title="Редактировать профиль"
       name="editProfile"
       button="Сохранить"
+      isOpen={isOpen}
+      onClose={onClose}
+      onSubmit={handleSubmit}
     >
       <input
         type="text"

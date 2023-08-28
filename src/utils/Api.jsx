@@ -25,13 +25,13 @@ export default class Api {
         });
     }
 
-    setUserInfo({ data }) {
+    setUserInfo(data) {
         return this._request(`${this._baseUrl}/users/me`, {
             method: 'PATCH',
             headers: this._headers,
             body: JSON.stringify({
                 name: data.name,
-                about: data.about,
+                about: data.about
             })
         });
     }
