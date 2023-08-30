@@ -19,12 +19,12 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
   function handleClick() {
     onCardClick(card);
   }
+
   return (
-    <article className="element"> 
+    <article className="element">
       <img className="element__pic" src={card.link} alt={card.name} onClick={handleClick} />
-      <h3 className="element__text">{card.name}</h3>
-      
-      <div className="element__like-counter">
+      <div className="element__caption">
+        <h3 className="element__text">{card.name}</h3>
         <button type="button" className={cardLikeButtonClassName} aria-label="Лайк" onClick={handleLikeClick}></button>
         <div className="element__counter">{card.likes.length}</div>
       </div>

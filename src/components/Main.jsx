@@ -37,15 +37,15 @@ function Main({ cards, onEditProfile, onAddPlace, onEditAvatar, onCardClick, onC
                 </div>
             </section>
             <section className="elements-container">
-                {cards.map((card) => (
-                    <Card
-                        key={card._id}
-                        card={card}
-                        onCardClick={onCardClick}
-                        onCardLike={onCardLike}
-                        onCardDelete={onCardDelete}
-                    />
-                ))}
+                    {cards.map((card) => (
+                        <Card
+                            key={card._id}
+                            card={card}
+                            onCardClick={onCardClick}
+                            onCardLike={onCardLike}
+                            onCardDelete={onCardDelete}
+                        />
+                    ))}
             </section>
         </main>
     );

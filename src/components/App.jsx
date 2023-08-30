@@ -108,8 +108,9 @@ function App() {
 
     return (
         <div className="page">
-            <Header />
             <CurrentUserContext.Provider value={currentUser}>
+
+                <Header />
                 <Main
                     cards={cards}
                     onEditProfile={handleEditProfileClick}
