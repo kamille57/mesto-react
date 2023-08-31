@@ -3,5 +3,4 @@
     display: grid;
     grid-template-areas:
         "title like"
-        "title counter";
 }

@@ -12,7 +12,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       setName(currentUser.name || "");
       setDescription(currentUser.about || "");
     }
-  }, [currentUser]);
+  }, [currentUser, isOpen]);
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -26,7 +26,6 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     onUpdateUser({ name, about: description });
-    onClose(); 
   };
 
   return (

@@ -12,6 +12,7 @@
   opacity: 1;
   grid-area: like;
   justify-self: end;
+  align-self: flex-end;
 }
 
 .element__like:hover {

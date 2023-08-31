@@ -1,19 +1,10 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import PopupWithForm from "./PopupWithForm";
-import CurrentUserContext from "../contexts/CurrentUserContext";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-    const currentUser = useContext(CurrentUserContext);
     const [place, setPlace] = useState("");
     const [link, setLink] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
-    useEffect(() => {
-        if (currentUser) {
-            setPlace(currentUser.place || "");
-            setLink(currentUser.link || "");
-        }
-    }, [currentUser]);
 
     const handleInputChange = (event) => {
         const { name, value } = event.target;
@@ -35,6 +26,13 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
 
         onAddPlace(newCard);
     };
+
+    useEffect(() => {
+        if (isOpen) {
+            setPlace("");
+            setLink("");
+        }
+    }, [isOpen]);
 
     return (
         <PopupWithForm

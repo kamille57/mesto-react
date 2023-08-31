@@ -60,9 +60,7 @@ function App() {
                     state.map((c) => (c._id === card._id ? newCard : c))
                 );
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(console.error);
     }
 
     function handleCardDelete(card) {
@@ -70,18 +68,17 @@ function App() {
             .then(() => {
                 setCards((state) => state.filter((c) => c._id !== card._id));
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch(console.error);
     }
 
     const handleUpdateUser = (data) => {
         api.setUserInfo(data)
             .then((updatedUserData) => {
                 setCurrentUser(updatedUserData);
+                closeAllPopups(); // Закрываем попап после успешного обновления данных пользователя
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             });
     }
 
@@ -89,9 +86,10 @@ function App() {
         api.updateAvatar(avatar)
             .then((updatedUser) => {
                 setCurrentUser(updatedUser);
+                closeAllPopups(); // Закрываем попап после успешного обновления аватара пользователя
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             });
     };
 
@@ -99,10 +97,10 @@ function App() {
         api.addCard(card)
             .then((createdCard) => {
                 setCards((prevCards) => [createdCard, ...prevCards]);
-                setIsAddPlacePopupOpen(false);
+                closeAllPopups(); // Закрываем попап после успешного добавления карточки
             })
             .catch((error) => {
-                console.log(error);
+                console.error(error);
             });
     };
 

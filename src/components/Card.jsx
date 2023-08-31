@@ -25,8 +25,10 @@ function Card({ card, onCardClick, onCardLike, onCardDelete }) {
       <img className="element__pic" src={card.link} alt={card.name} onClick={handleClick} />
       <div className="element__caption">
         <h3 className="element__text">{card.name}</h3>
-        <button type="button" className={cardLikeButtonClassName} aria-label="Лайк" onClick={handleLikeClick}></button>
-        <div className="element__counter">{card.likes.length}</div>
+        <div className="element__like-counter">
+          <button type="button" className={cardLikeButtonClassName} aria-label="Лайк" onClick={handleLikeClick}></button>
+          <div className="element__counter">{card.likes.length}</div>
+        </div>
       </div>
       {isOwn && <button className="element__trash" aria-label="Корзина" onClick={handleDeleteClick}></button>}
     </article>
